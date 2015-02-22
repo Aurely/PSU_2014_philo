@@ -1,0 +1,15 @@
+le cours :
+https://intra.epitech.eu/e-learning/#!/semester-4/B4-Systeme-Unix/cours-Threads-2/Lesson
+
+les man utiles :
+- pthread_create
+- pthread_exit
+- pthread_join -> comme un wait (je crois)
+- pthread_mutex_init
+- pthread_mutex_destroy
+- pthread_mutex_lock
+- pthread_mutex_unlock
+- pthread_mutex_trylock -> = lock != stop when error
+
+les exemples :
+https://intra.epitech.eu/e-learning/#!/semester-4/B4-Systeme-Unix/cours-Threads-3/Examples
