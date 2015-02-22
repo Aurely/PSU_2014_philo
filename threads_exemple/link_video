@@ -9,7 +9,7 @@ les man utiles :
 - pthread_mutex_destroy
 - pthread_mutex_lock
 - pthread_mutex_unlock
-- pthread_mutex_trylock -> = lock != stop when error
+- pthread_mutex_trylock -> = lock mais pas de stop when error
 
 les exemples :
 https://intra.epitech.eu/e-learning/#!/semester-4/B4-Systeme-Unix/cours-Threads-3/Examples
