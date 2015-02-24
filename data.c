@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Tue Feb 24 11:13:06 2015 Trotier Marie
-** Last update Tue Feb 24 15:36:01 2015 Trotier Marie
+** Last update Tue Feb 24 18:56:43 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
@@ -50,7 +50,7 @@ void		func_think(void *arg, int i)
 
   data = *(int **)arg;
   rd = rand() % 2;
-  if (rd == 0)
+  if (data[i - 1] == REST)
     {
       nb_think = 0;
       data[i] = EAT;
@@ -72,5 +72,6 @@ void		func_rest(void *arg, int i, int rd)
   int		rd;
 
   data = *(int **)arg;
-  if ()
+  if (data[i - 1] == THINK && data[i + 1])
+    
 }
