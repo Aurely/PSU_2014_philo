@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Mon Feb 23 19:03:38 2015 Trotier Marie
+** Last update Tue Feb 24 10:58:12 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
@@ -18,37 +18,66 @@ pthread_mutex_t m_creation = PTHREAD_MUTEX_INITIALIZER;
 
 void	*init(void *arg)
 {
-  static int	i = 0;
   int	*data;
-  int	rd;
-  
+
   data = *(int **)arg;
-  srand(time(NULL));
-  rd = rand()%3;
-  data[i] = rd;
-  i++;
- 
-  // pthread_mutex_lock(&m_creation);
-  // pthread_mutex_unlock(&m_creation);
+  pthread_mutex_lock(&m_creation);
+  srand(time(0));
+  data[1] = rand() % 3;
+  printf("data[1] = %d\n", data[1]);
+  pthread_mutex_unlock(&m_creation);
+}
+
+void		init_state(void *arg)
+{
+  int	*data;
+  int	i;
+
+  i = 0;
+  data = *(int **)arg;
+  while (i < 7)
+    {
+      if (data[i] == 2 /*MANGE*/)
+	{
+	  /*RANDOM 0 || 1
+	    data[i + 1] = 0;REPOS;*/
+	}
+      else if (data[i] == 1 /*REFLECHIS*/)
+	{
+	  /*
+	data[i + 1] = 2;
+	  */
+	}
+      else
+	{
+	  /*
+	data[i + 1] = 0 REPOS;*/
+	}
+      i++;
+    }
 }
 
 void		*create_philo()
 {
   int		i;
   pthread_t	th;
-  pthread_t	t_philo[7];
-  int		rice[7];
-  int		data[7];
+  pthread_t	*t_philo;
+  int		*rice;
+  int		*data;
 
   i = 0;
+  if (((t_philo = malloc(sizeof(pthread_t) * 7)) == NULL) ||
+      ((data = malloc(sizeof(int) * 7)) == NULL) ||
+      ((rice = malloc(sizeof(int) * 7)) == NULL))
+    return;
   while (i < 7)
     {
       pthread_create(&th, NULL, init, &data);
       rice[i] = 5;
       t_philo[i] = th;
-      printf("%d philosophes\n", i);
       i++;
     }
+  init_etat(&data);
 }
 
 int	main()
