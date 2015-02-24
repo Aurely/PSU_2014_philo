@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Tue Feb 24 10:58:12 2015 Aurélie LAO
+** Last update Tue Feb 24 11:55:17 2015 Trotier Marie
 */
 
 #include <stdlib.h>
@@ -22,7 +22,6 @@ void	*init(void *arg)
 
   data = *(int **)arg;
   pthread_mutex_lock(&m_creation);
-  srand(time(0));
   data[1] = rand() % 3;
   printf("data[1] = %d\n", data[1]);
   pthread_mutex_unlock(&m_creation);
@@ -37,21 +36,19 @@ void		init_state(void *arg)
   data = *(int **)arg;
   while (i < 7)
     {
-      if (data[i] == 2 /*MANGE*/)
+      if (data[i] == EAT)
 	{
+	  func_eat(&data, i + 1, 3);
 	  /*RANDOM 0 || 1
 	    data[i + 1] = 0;REPOS;*/
 	}
-      else if (data[i] == 1 /*REFLECHIS*/)
+      else if (data[i] == THINK)
 	{
-	  /*
-	data[i + 1] = 2;
-	  */
+	  func_think(&data, i + 1);
 	}
       else
 	{
-	  /*
-	data[i + 1] = 0 REPOS;*/
+	  func_rest(&data, i + 1);
 	}
       i++;
     }
@@ -66,9 +63,10 @@ void		*create_philo()
   int		*data;
 
   i = 0;
+  srand(time(0));
   if (((t_philo = malloc(sizeof(pthread_t) * 7)) == NULL) ||
       ((data = malloc(sizeof(int) * 7)) == NULL) ||
-      ((rice = malloc(sizeof(int) * 7)) == NULL))
+-      ((rice = malloc(sizeof(int) * 7)) == NULL))
     return;
   while (i < 7)
     {
