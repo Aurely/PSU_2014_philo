@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Tue Feb 24 11:13:06 2015 Trotier Marie
-** Last update Thu Feb 26 20:29:33 2015 Aurélie LAO
+** Last update Thu Feb 26 20:32:54 2015 Trotier Marie
 */
 
 #include <stdlib.h>
@@ -19,6 +19,7 @@ void		func_eat(int philo, int next_philo, t_philo *my_philo)
 {
   sleep(1);
   pthread_mutex_lock(&my_philo->baguette[philo]);
+  pthread_mutex_lock(&my_philo->baguette[next_philo]);
   if (my_philo->rice != 0)
     my_philo->rice[philo] = my_philo->rice[philo] - 1;
   else
@@ -30,6 +31,7 @@ void		func_eat(int philo, int next_philo, t_philo *my_philo)
   printf("philo %d -> fonction ---> eat     | O |\n", philo);
   printf("energy = %d\n\n", philo, my_philo->energy[philo]);
   pthread_mutex_unlock(&my_philo->baguette[philo]);
+  pthread_mutex_unlock(&my_philo->baguette[next_philo]);
 }
 
 void		func_think(int philo, int next_philo, t_philo *my_philo)

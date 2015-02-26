@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Thu Feb 26 20:28:30 2015 Aurélie LAO
+** Last update Thu Feb 26 20:52:02 2015 Trotier Marie
 */
 
 #include <stdlib.h>
@@ -14,6 +14,8 @@
 #include <pthread.h>
 #include <time.h>
 #include "philosophes.h"
+
+pthread_mutex_t schyzo = PTHREAD_MUTEX_INITIALIZER;
 
 void		*create_philo(void *arg)
 {
@@ -67,11 +69,11 @@ void		*create_philo(void *arg)
 	  if (tmp->energy[b] == 1)
 	    {
 	      tmp->energy[b] = 0;
-	      func_think(b, a, tmp);
+	      func_think(a, b, tmp);
 	      //printf("philo %d -> energy = %d - fonction ---> think     . O |\n", b, tmp->energy[b]);
 	    }
 	  else
-	    func_rest(b, a, tmp);
+	    func_rest(a, b, tmp);
 	    //printf("philo %d -> energy = %d - fonction ---> rest      . O |\n", b, tmp->energy[b]);
 	}
       else /* Droite prise*/ 
@@ -89,7 +91,7 @@ int	main()
   t_philo	my_philo;
   int		i;
 
-  i = 0;
+  i = 0;  
   while (i < PHIL)
     {
       my_philo.rice[i] = INIT_RICE;
@@ -100,16 +102,18 @@ int	main()
   i = 0;
   while (i < PHIL)
     {
-      printf("a\n");
+      //printf("a\n");
+      sleep(1);
       pthread_mutex_init(&my_philo.baguette[i], NULL);
-      pthread_mutex_unlock(&my_philo.baguette[i]);
+      //pthread_mutex_unlock(&my_philo.baguette[i]);
       pthread_create(&th_philo[i], NULL, create_philo, &my_philo);
       i++;
     }
   i = 0;
   while (i < PHIL)
     {
-      printf("b\n");
+      //printf("b\n");
+      sleep(1);
       pthread_join(th_philo[i], NULL);
       i++;
     }
