@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Thu Feb 26 20:08:49 2015 Trotier Marie
+** Last update Thu Feb 26 20:28:30 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
@@ -76,12 +76,10 @@ void		*create_philo(void *arg)
 	}
       else /* Droite prise*/ 
 	{
-	  if (tmp->energy[b] == 1)
-	    func_rest(b, a, tmp);
+	  func_rest(b, a, tmp);
 	    //printf("philo %d -> energy = %d - fonction ---> rest      . O .\n", b, tmp->energy[b]);
 	}
     }
-  sleep(2);
   return (NULL);
 }
 
@@ -102,6 +100,7 @@ int	main()
   i = 0;
   while (i < PHIL)
     {
+      printf("a\n");
       pthread_mutex_init(&my_philo.baguette[i], NULL);
       pthread_mutex_unlock(&my_philo.baguette[i]);
       pthread_create(&th_philo[i], NULL, create_philo, &my_philo);
@@ -110,8 +109,9 @@ int	main()
   i = 0;
   while (i < PHIL)
     {
+      printf("b\n");
       pthread_join(th_philo[i], NULL);
-      i = i + 1;
+      i++;
     }
   return (0);
 }
