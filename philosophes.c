@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Thu Feb 26 19:40:22 2015 Aurélie LAO
+** Last update Thu Feb 26 20:08:49 2015 Trotier Marie
 */
 
 #include <stdlib.h>
@@ -33,12 +33,14 @@ void		*create_philo(void *arg)
 	  if (tmp->energy[b] == 1)
 	    {
 	      tmp->energy[b] == 0;
-	      printf("philo %d -> energy = %d - fonction ---> think     | O |\n", b, tmp->energy[b]);
+	      func_think(b, a, tmp);
+	      //printf("philo %d -> energy = %d - fonction ---> think     | O |\n", b, tmp->energy[b]);
 	    }
 	  else
 	    {
 	      tmp->energy[b] == 0;
-	      printf("philo %d -> energy = %d - fonction ---> eat       | O |\n", b, tmp->energy[b]);
+	      func_eat(b, a, tmp);
+	      //printf("philo %d -> energy = %d - fonction ---> eat       | O |\n", b, tmp->energy[b]);
 	    }
 	}
       else /* Droite prise */
@@ -46,12 +48,14 @@ void		*create_philo(void *arg)
 	  if (tmp->energy[b] == 1)
 	    {
 	      tmp->energy[b] == 0;
-	      printf("philo %d -> energy = %d - fonction ---> think     | O |\n", b, tmp->energy[b]);
+	      func_think(b, a, tmp);
+	      //printf("philo %d -> energy = %d - fonction ---> think     | O |\n", b, tmp->energy[b]);
 	    }
 	  else
 	    {
 	      tmp->energy[b] == 0;
-	      printf("philo %d -> energy = %d - fonction ---> rest      | O |\n", b, tmp->energy[b]);
+	      func_rest(b, a, tmp);
+	      //printf("philo %d -> energy = %d - fonction ---> rest      | O |\n", b, tmp->energy[b]);
 	    }
 	}
      }
@@ -63,15 +67,18 @@ void		*create_philo(void *arg)
 	  if (tmp->energy[b] == 1)
 	    {
 	      tmp->energy[b] = 0;
-	      printf("philo %d -> energy = %d - fonction ---> think     . O |\n", b, tmp->energy[b]);
+	      func_think(b, a, tmp);
+	      //printf("philo %d -> energy = %d - fonction ---> think     . O |\n", b, tmp->energy[b]);
 	    }
 	  else
-	    printf("philo %d -> energy = %d - fonction ---> rest      . O |\n", b, tmp->energy[b]);
+	    func_rest(b, a, tmp);
+	    //printf("philo %d -> energy = %d - fonction ---> rest      . O |\n", b, tmp->energy[b]);
 	}
       else /* Droite prise*/ 
 	{
 	  if (tmp->energy[b] == 1)
-	    printf("philo %d -> energy = %d - fonction ---> rest      . O .\n", b, tmp->energy[b]);
+	    func_rest(b, a, tmp);
+	    //printf("philo %d -> energy = %d - fonction ---> rest      . O .\n", b, tmp->energy[b]);
 	}
     }
   sleep(2);
