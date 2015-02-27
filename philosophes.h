@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 18:19:08 2015 Trotier Marie
-** Last update Fri Feb 27 16:23:59 2015 Aurélie LAO
+** Last update Fri Feb 27 16:50:29 2015 Aurélie LAO
 */
 
 #ifndef PHILOSOPHES_H_
@@ -31,8 +31,8 @@ struct		s_philo
   int			energy;
   STATE			state;
   pthread_mutex_t	chopstik;
-  t_philo		*left;
-  t_philo		*right;
+  t_philo		*prev;
+  t_philo		*next;
 };
 
 void	func_eat(int philo, int next_philo, t_philo *my_philo);
