@@ -5,9 +5,10 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Fri Feb 27 17:57:21 2015 Aurélie LAO
+** Last update Fri Feb 27 19:02:56 2015 Aurélie LAO
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include "philosophes.h"
@@ -19,17 +20,17 @@ void	init_philo(t_philo **tab)
   i = 0;
   tab[i]->id = i;
   tab[i]->rice = INIT_RICE;
+  tab[i]->state = REST;
   tab[i]->nb_think = 0;
   pthread_mutex_init(&(tab[i]->chopstik), NULL);
-  tab[i]->energy = 1;
   ++i;
   while (i < PHIL)
     {
       tab[i]->id = i;
+      tab[i]->state = REST;
       tab[i]->nb_think = 0;
       tab[i]->rice = INIT_RICE;
       pthread_mutex_init(&(tab[i]->chopstik), NULL);
-      tab[i]->energy = 1;
       tab[i]->prev = tab[i - 1];
       tab[i - 1]->next = tab[i];
       ++i;
@@ -38,11 +39,46 @@ void	init_philo(t_philo **tab)
   tab[PHIL-1]->next = tab[0];
 }
 
+void		*action(void *arg)
+{
+  t_philo	*tab;
 
+  tab = arg;
+  if (tab->state == REST)
+    {
+      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
+	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+	printf("fonction EAT\n");
+      else if ((pthread_mutex_trylock(&tab->chopstik) != 0) ||
+	       (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+	printf("fonction THINK\n");
+      else
+	printf("fonction REST\n");
+    }
+  else if (tab->state == EAT)
+    {
+      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
+	  (pthread_mutex_trylock(&tab->next->chopstik) != 0) &&
+	  tab->rice != 0)
+	printf("fonction EAT_n");
+      else
+	printf("fonction REST\n");
+    }
+  else/*THINK*/
+    {
+      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
+	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+	printf("fonction EAT\n");
+      else
+	printf("fonction THINK");
+    }
+  return 0;
+}
 
 int		main()
 {
   t_philo	**tab;
+  pthread_t	th_philo;
   int		i;
 
   i = 0;
@@ -55,6 +91,12 @@ int		main()
       ++i;
     }
   init_philo(tab);
+  i = 0;
+  while (i < PHIL)
+    {
+      pthread_create(&th_philo, NULL, action, *tab);
+      ++i;
+    }
   while (i < PHIL)
     {
       free(tab[i]);
