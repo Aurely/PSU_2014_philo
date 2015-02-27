@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Fri Feb 27 16:26:03 2015 Aurélie LAO
+** Last update Fri Feb 27 17:49:18 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
@@ -15,36 +15,35 @@
 #include <time.h>
 #include "philosophes.h"
 
-pthread_mutex_t schyzo = PTHREAD_MUTEX_INITIALIZER;
+/* void		*create_philo(void *arg) */
+/* { */
+/*   static int	a = 0; */
+/*   int		b; */
+/*   t_philo	*tmp; */
 
-void		*create_philo(void *arg)
-{
-  static int	a = 0;
-  int		b;
-  t_philo	*tmp;
+/*   tmp = arg; */
+/*   b = a; */
+/*   a++; */
+/*   return (NULL); */
+/* } */
 
-  tmp = arg;
-  b = a;
-  a++;
-  return (NULL);
-}
-
-void	init_philo(t_philo *tab)
+void	init_philo(t_philo **tab)
 {
   int	i;
 
   i = 0;
-
   tab[i]->id = i;
+  tab[i]->nb_think = 0;
   tab[i]->rice = INIT_RICE;
-  pthread_mutex_init(tab[i]->chopstick);
+  pthread_mutex_init(&(tab[i]->chopstik), NULL);
   tab[i]->energy = 1;
   ++i;
   while (i < PHIL)
     {
       tab[i]->id = i;
+      tab[i]->nb_think = 0;
       tab[i]->rice = INIT_RICE;
-      pthread_mutex_init(tab[i]->chopstick);
+      pthread_mutex_init(&(tab[i]->chopstik), NULL);
       tab[i]->energy = 1;
       tab[i]->prev = tab[i - 1];
       tab[i - 1]->next = tab[i];
@@ -56,18 +55,24 @@ void	init_philo(t_philo *tab)
 
 int		main()
 {
-  t_philo	*tab;
+  t_philo	**tab;
   int		i;
 
   i = 0;
-  if ((tab = malloc(sizeof(t_philo) * PHIL)) == NULL)
+  if (!(tab = malloc(sizeof(t_philo) * PHIL)))
     return (-1);
   while (i < PHIL)
     {
-      if ((tab[i] = malloc(sizeof(t_philo))) == NULL)
+      if (!(tab[i] = malloc(sizeof(t_philo))))
 	return (-1);
       ++i;
     }
-  init_philo(&tab);
+  init_philo(tab);
+  while (i < PHIL)
+    {
+      free(tab[i]);
+      ++i;
+    }
+  free(tab);
   return (0);
 }

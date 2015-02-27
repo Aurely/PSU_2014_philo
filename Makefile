@@ -5,7 +5,7 @@
 ## Login   <lao_e@epitech.net>
 ## 
 ## Started on  Fri Feb 20 09:59:46 2015 Aurélie LAO
-## Last update Fri Feb 27 16:09:56 2015 Aurélie LAO
+## Last update Fri Feb 27 17:07:42 2015 Aurélie LAO
 ##
 
 CC	=	gcc
@@ -19,9 +19,11 @@ SRC	=	philosophes.c
 
 OBJ	=	$(SRC:.c=.o)
 
+CFLAGS	=	-Wall -Wextra -W -pedantic -g
+
 all	:	$(NAME)
 
-$(NAME)	:
+$(NAME)	:	$(OBJ)
 		$(CC) -o $(NAME) $(SRC) -lpthread
 
 clean	:
