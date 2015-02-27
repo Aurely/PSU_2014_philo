@@ -5,27 +5,12 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Fri Feb 27 17:49:18 2015 Aurélie LAO
+** Last update Fri Feb 27 17:57:21 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 #include <pthread.h>
-#include <time.h>
 #include "philosophes.h"
-
-/* void		*create_philo(void *arg) */
-/* { */
-/*   static int	a = 0; */
-/*   int		b; */
-/*   t_philo	*tmp; */
-
-/*   tmp = arg; */
-/*   b = a; */
-/*   a++; */
-/*   return (NULL); */
-/* } */
 
 void	init_philo(t_philo **tab)
 {
@@ -33,8 +18,8 @@ void	init_philo(t_philo **tab)
 
   i = 0;
   tab[i]->id = i;
-  tab[i]->nb_think = 0;
   tab[i]->rice = INIT_RICE;
+  tab[i]->nb_think = 0;
   pthread_mutex_init(&(tab[i]->chopstik), NULL);
   tab[i]->energy = 1;
   ++i;
@@ -52,6 +37,8 @@ void	init_philo(t_philo **tab)
   tab[0]->prev = tab[PHIL];
   tab[PHIL-1]->next = tab[0];
 }
+
+
 
 int		main()
 {
