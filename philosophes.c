@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Thu Feb 26 20:52:02 2015 Trotier Marie
+** Last update Fri Feb 27 16:26:03 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
@@ -26,96 +26,48 @@ void		*create_philo(void *arg)
   tmp = arg;
   b = a;
   a++;
-  //  printf("AAA - tmp->energy[%d] = %d\n", b, tmp->energy[b]);
-  if (pthread_mutex_trylock(&tmp->baguette[b]) != 0/* = Mutex unlock = Gauche libre*/)
-    {
-	  /* printf("BBB - tmp->energy[b] = %d\n", tmp->energy[b]); */
-      if (pthread_mutex_trylock(&tmp->baguette[a]) != 0/* = mutex unlock = Droite libre*/)
-	{
-	  if (tmp->energy[b] == 1)
-	    {
-	      tmp->energy[b] == 0;
-	      func_think(b, a, tmp);
-	      //printf("philo %d -> energy = %d - fonction ---> think     | O |\n", b, tmp->energy[b]);
-	    }
-	  else
-	    {
-	      tmp->energy[b] == 0;
-	      func_eat(b, a, tmp);
-	      //printf("philo %d -> energy = %d - fonction ---> eat       | O |\n", b, tmp->energy[b]);
-	    }
-	}
-      else /* Droite prise */
-	{
-	  if (tmp->energy[b] == 1)
-	    {
-	      tmp->energy[b] == 0;
-	      func_think(b, a, tmp);
-	      //printf("philo %d -> energy = %d - fonction ---> think     | O |\n", b, tmp->energy[b]);
-	    }
-	  else
-	    {
-	      tmp->energy[b] == 0;
-	      func_rest(b, a, tmp);
-	      //printf("philo %d -> energy = %d - fonction ---> rest      | O |\n", b, tmp->energy[b]);
-	    }
-	}
-     }
-  else /* baguette de gauche prise*/
-    {
-	  /* printf("CCC - tmp->energy[b] = %d\n", tmp->energy[b]); */
-      if (pthread_mutex_trylock(&tmp->baguette[a]) != 0/* = mutex unlock = Droite libre*/)
-	{
-	  if (tmp->energy[b] == 1)
-	    {
-	      tmp->energy[b] = 0;
-	      func_think(a, b, tmp);
-	      //printf("philo %d -> energy = %d - fonction ---> think     . O |\n", b, tmp->energy[b]);
-	    }
-	  else
-	    func_rest(a, b, tmp);
-	    //printf("philo %d -> energy = %d - fonction ---> rest      . O |\n", b, tmp->energy[b]);
-	}
-      else /* Droite prise*/ 
-	{
-	  func_rest(b, a, tmp);
-	    //printf("philo %d -> energy = %d - fonction ---> rest      . O .\n", b, tmp->energy[b]);
-	}
-    }
   return (NULL);
 }
 
-int	main()
+void	init_philo(t_philo *tab)
 {
-  pthread_t     th_philo[PHIL];
-  t_philo	my_philo;
+  int	i;
+
+  i = 0;
+
+  tab[i]->id = i;
+  tab[i]->rice = INIT_RICE;
+  pthread_mutex_init(tab[i]->chopstick);
+  tab[i]->energy = 1;
+  ++i;
+  while (i < PHIL)
+    {
+      tab[i]->id = i;
+      tab[i]->rice = INIT_RICE;
+      pthread_mutex_init(tab[i]->chopstick);
+      tab[i]->energy = 1;
+      tab[i]->prev = tab[i - 1];
+      tab[i - 1]->next = tab[i];
+      ++i;
+    }
+  tab[0]->prev = tab[PHIL];
+  tab[PHIL-1]->next = tab[0];
+}
+
+int		main()
+{
+  t_philo	*tab;
   int		i;
 
-  i = 0;  
-  while (i < PHIL)
-    {
-      my_philo.rice[i] = INIT_RICE;
-      my_philo.state[i] = 'R';
-      my_philo.energy[i] = 1;
-      i++;
-    }
   i = 0;
+  if ((tab = malloc(sizeof(t_philo) * PHIL)) == NULL)
+    return (-1);
   while (i < PHIL)
     {
-      //printf("a\n");
-      sleep(1);
-      pthread_mutex_init(&my_philo.baguette[i], NULL);
-      //pthread_mutex_unlock(&my_philo.baguette[i]);
-      pthread_create(&th_philo[i], NULL, create_philo, &my_philo);
-      i++;
+      if ((tab[i] = malloc(sizeof(t_philo))) == NULL)
+	return (-1);
+      ++i;
     }
-  i = 0;
-  while (i < PHIL)
-    {
-      //printf("b\n");
-      sleep(1);
-      pthread_join(th_philo[i], NULL);
-      i++;
-    }
+  init_philo(&tab);
   return (0);
 }
