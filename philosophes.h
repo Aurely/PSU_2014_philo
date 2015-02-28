@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 18:19:08 2015 Trotier Marie
-** Last update Sat Feb 28 15:39:12 2015 Aurélie LAO
+** Last update Sat Feb 28 18:09:56 2015 Aurélie LAO
 */
 
 #ifndef PHILOSOPHES_H_
@@ -13,13 +13,15 @@
 
 # define PHIL		7
 # define MAX_THINK	3
-# define INIT_RICE	10
+# define INIT_RICE	1
 
 typedef enum	E_STATE 
 {
   REST,
-  THINK,
-  EAT
+  THINKG,
+  THINKD,
+  EAT,
+  DEATH
 }		STATE;
 
 typedef struct s_philo	t_philo;
