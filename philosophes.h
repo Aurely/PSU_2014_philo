@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 18:19:08 2015 Trotier Marie
-** Last update Sat Feb 28 11:22:49 2015 Trotier Marie
+** Last update Sat Feb 28 11:35:59 2015 Trotier Marie
 */
 
 #ifndef PHILOSOPHES_H_
@@ -35,8 +35,8 @@ struct		s_philo
   t_philo		*next;
 };
 
-void	*func_eat(t_philo *philo);
-void	*func_think(t_philo *philo);
-void	*func_rest(t_philo *philo);
+void	func_eat(t_philo *philo);
+void	func_think(t_philo *philo);
+void	func_rest(t_philo *philo);
 
 #endif /* !PHILOSOPHES_H_ */
