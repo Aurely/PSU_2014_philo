@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Sat Feb 28 15:44:33 2015 Aurélie LAO
+** Last update Sat Feb 28 16:43:34 2015 Aurélie LAO
 */
 
 #include <stdio.h>
@@ -44,30 +44,35 @@ void		*action(void *arg)
 
   tab = (t_philo*)arg;
 
-  if (tab->state == REST)
+  if (tab->state == THINK)
     {
-      /* if ((pthread_mutex_trylock(&tab->chopstik) != 0) && */
-      /* 	  (pthread_mutex_trylock(&tab->next->chopstik) != 0)) */
-      /* 	func_eat(tab); */
-      /* else if ((pthread_mutex_trylock(&tab->chopstik) != 0) || */
-      /* 	       (pthread_mutex_trylock(&tab->next->chopstik) != 0)) */
+      if ((pthread_mutex_lock(&tab->chopstik) == 0) &&
+	  (pthread_mutex_lock(&tab->next->chopstik) == 0))
+  	func_eat(tab);
+      else
   	func_think(tab);
-      /* else */
-      /* 	func_rest(tab); */
+    }
+  else if (tab->state == REST)
+    {
+      if ((pthread_mutex_trylock(&tab->chopstik) == 0)/*unlock -> lock*/ &&
+	  (pthread_mutex_trylock(&tab->next->chopstik) == 0))
+  	func_eat(tab);
+      else if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
+	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+	func_rest(tab);
+      else
+	func_think(tab);
     }
   else if (tab->state == EAT)
     {
-      if (tab->rice != 0)
-  	func_eat(tab);
+      if ((pthread_mutex_unlock(&tab->chopstik) == 0) &&
+	  (pthread_mutex_unlock(&tab->next->chopstik) == 0))
+	func_rest(tab);
+      else if ((pthread_mutex_unlock(&tab->chopstik) == 0) ||
+	  (pthread_mutex_unlock(&tab->next->chopstik) == 0))
+	func_think(tab);
       else
-  	func_rest(tab);
-    }
-  else if (tab->state == THINK)
-    {
-      if (tab->rice != 0)
-  	func_eat(tab);
-      else
-  	func_think(tab);
+	func_eat(tab);
     }
   pthread_exit(0);
   return 0;
