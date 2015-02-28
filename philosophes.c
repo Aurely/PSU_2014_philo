@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Sat Feb 28 14:19:02 2015 Aurélie LAO
+** Last update Sat Feb 28 15:41:38 2015 Aurélie LAO
 */
 
 #include <stdio.h>
@@ -26,7 +26,7 @@ void	init_philo(t_philo **tab)
   while (i < PHIL)
     {
       tab[i]->id = i;
-      tab[i]->state = REST;
+      tab[i]->state = 1;
       tab[i]->nb_think = 0;
       tab[i]->rice = INIT_RICE;
       pthread_mutex_init(&(tab[i]->chopstik), NULL);
@@ -43,39 +43,30 @@ void		*action(void *arg)
   t_philo	*tab;
 
   tab = (t_philo*)arg;
+
   if (tab->state == REST)
     {
-      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-  	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-  	/*printf("fonction EAT\n");*/
-  	func_eat(tab);
-      else if ((pthread_mutex_trylock(&tab->chopstik) != 0) ||
-  	       (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-  	/*printf("fonction THINK\n");*/
+      /* if ((pthread_mutex_trylock(&tab->chopstik) != 0) && */
+      /* 	  (pthread_mutex_trylock(&tab->next->chopstik) != 0)) */
+      /* 	func_eat(tab); */
+      /* else if ((pthread_mutex_trylock(&tab->chopstik) != 0) || */
+      /* 	       (pthread_mutex_trylock(&tab->next->chopstik) != 0)) */
   	func_think(tab);
-      else
-  	/*printf("fonction REST\n");*/
-  	func_rest(tab);
+      /* else */
+      /* 	func_rest(tab); */
     }
   else if (tab->state == EAT)
     {
-      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-  	  (pthread_mutex_trylock(&tab->next->chopstik) != 0) &&
-  	  tab->rice != 0)
-  	/*printf("fonction EAT_n");*/
+      if (tab->rice != 0)
   	func_eat(tab);
       else
-  	/*printf("fonction REST\n");*/
   	func_rest(tab);
     }
-  else/*THINK*/
+  else if (tab->state == THINK)
     {
-      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-  	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-  	/*printf("fonction EAT\n");*/
+      if (tab->rice != 0)
   	func_eat(tab);
       else
-  	/*printf("fonction THINK");*/
   	func_think(tab);
     }
   pthread_exit(0);
@@ -103,10 +94,7 @@ int		main()
     }
   i = 0;
   while (i < PHIL)
-    {
-      pthread_join(threads[i], NULL);
-      ++i;
-    }
+    pthread_join(threads[i++], NULL);
   while (i < PHIL)
     free(tab[i++]);
   free(tab);

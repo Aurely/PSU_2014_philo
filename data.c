@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Tue Feb 24 11:13:06 2015 Trotier Marie
-** Last update Sat Feb 28 11:42:17 2015 Trotier Marie
+** Last update Sat Feb 28 15:20:37 2015 Aurélie LAO
 */
 
 #include <stdlib.h>
@@ -32,7 +32,7 @@ void		func_eat(t_philo *philo)
 
 void		func_think(t_philo *philo)
 {
-  if (philo->nb_think > MAX_THINK) /*limitation de penser = 3*/
+  if (philo->nb_think < MAX_THINK)
     {
       pthread_mutex_lock(&(philo->chopstik));
       /*pthread_mutex_lock(philo->&next->chopstik);*/

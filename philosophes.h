@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 18:19:08 2015 Trotier Marie
-** Last update Sat Feb 28 14:11:31 2015 Aurélie LAO
+** Last update Sat Feb 28 15:39:12 2015 Aurélie LAO
 */
 
 #ifndef PHILOSOPHES_H_
@@ -26,7 +26,6 @@ typedef struct s_philo	t_philo;
 
 struct		s_philo
 {
-  //  pthread_t		th_philo;
   int			id;
   int			rice;
   int			nb_think;
