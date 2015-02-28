@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Fri Feb 27 19:02:56 2015 Aurélie LAO
+** Last update Sat Feb 28 11:21:03 2015 Trotier Marie
 */
 
 #include <stdio.h>
@@ -51,7 +51,8 @@ void		*action(void *arg)
 	printf("fonction EAT\n");
       else if ((pthread_mutex_trylock(&tab->chopstik) != 0) ||
 	       (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	printf("fonction THINK\n");
+	//printf("fonction THINK\n");
+	func_think(tab);
       else
 	printf("fonction REST\n");
     }
@@ -60,7 +61,8 @@ void		*action(void *arg)
       if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
 	  (pthread_mutex_trylock(&tab->next->chopstik) != 0) &&
 	  tab->rice != 0)
-	printf("fonction EAT_n");
+	//printf("fonction EAT_n");
+	func_eat(tab);
       else
 	printf("fonction REST\n");
     }
