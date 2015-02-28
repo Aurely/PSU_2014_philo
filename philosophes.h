@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 18:19:08 2015 Trotier Marie
-** Last update Sat Feb 28 18:09:56 2015 Aurélie LAO
+** Last update Sat Feb 28 20:24:47 2015 Trotier Marie
 */
 
 #ifndef PHILOSOPHES_H_
