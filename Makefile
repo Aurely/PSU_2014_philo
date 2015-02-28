@@ -5,7 +5,7 @@
 ## Login   <lao_e@epitech.net>
 ## 
 ## Started on  Fri Feb 20 09:59:46 2015 Aurélie LAO
-## Last update Sat Feb 28 11:35:08 2015 Trotier Marie
+## Last update Sat Feb 28 14:05:02 2015 Aurélie LAO
 ##
 
 CC	=	gcc
@@ -24,7 +24,7 @@ CFLAGS	=	-Wall -Wextra -W -pedantic -g
 all	:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-		$(CC) -o $(NAME) $(SRC) -lpthread
+		$(CC) -o $(NAME) $(SRC) -lpthread -g
 
 clean	:
 		$(RM) $(OBJ)

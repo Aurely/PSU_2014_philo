@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Sat Feb 28 13:23:57 2015 Trotier Marie
+** Last update Sat Feb 28 14:19:02 2015 Aurélie LAO
 */
 
 #include <stdio.h>
@@ -42,49 +42,50 @@ void		*action(void *arg)
 {
   t_philo	*tab;
 
-  tab = arg;
+  tab = (t_philo*)arg;
   if (tab->state == REST)
     {
       if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	/*printf("fonction EAT\n");*/
-	func_eat(tab);
+  	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+  	/*printf("fonction EAT\n");*/
+  	func_eat(tab);
       else if ((pthread_mutex_trylock(&tab->chopstik) != 0) ||
-	       (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	/*printf("fonction THINK\n");*/
-	func_think(tab);
+  	       (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+  	/*printf("fonction THINK\n");*/
+  	func_think(tab);
       else
-	/*printf("fonction REST\n");*/
-	func_rest(tab);
+  	/*printf("fonction REST\n");*/
+  	func_rest(tab);
     }
   else if (tab->state == EAT)
     {
       if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-	  (pthread_mutex_trylock(&tab->next->chopstik) != 0) &&
-	  tab->rice != 0)
-	/*printf("fonction EAT_n");*/
-	func_eat(tab);
+  	  (pthread_mutex_trylock(&tab->next->chopstik) != 0) &&
+  	  tab->rice != 0)
+  	/*printf("fonction EAT_n");*/
+  	func_eat(tab);
       else
-	/*printf("fonction REST\n");*/
-	func_rest(tab);
+  	/*printf("fonction REST\n");*/
+  	func_rest(tab);
     }
   else/*THINK*/
     {
       if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	/*printf("fonction EAT\n");*/
-	func_eat(tab);
+  	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
+  	/*printf("fonction EAT\n");*/
+  	func_eat(tab);
       else
-	/*printf("fonction THINK");*/
-	func_think(tab);
+  	/*printf("fonction THINK");*/
+  	func_think(tab);
     }
+  pthread_exit(0);
   return 0;
 }
 
 int		main()
 {
   t_philo	**tab;
-  pthread_t	th_philo;
+  pthread_t	threads[PHIL];
   int		i;
 
   i = 0;
@@ -94,10 +95,16 @@ int		main()
     if (!(tab[i++] = malloc(sizeof(t_philo))))
       return (-1);
   init_philo(tab);
+  i = 0; 
+  while (i < PHIL)
+    {
+      pthread_create(&(threads[i]), NULL, &action, (void *)tab[i]);
+      ++i;
+    }
   i = 0;
   while (i < PHIL)
     {
-      pthread_create(&th_philo, NULL, action, *tab);
+      pthread_join(threads[i], NULL);
       ++i;
     }
   while (i < PHIL)
