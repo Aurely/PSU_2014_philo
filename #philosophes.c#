@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Sat Feb 28 13:23:57 2015 Trotier Marie
+** Last update Sat Feb 28 11:48:35 2015 Trotier Marie
 */
 
 #include <stdio.h>
@@ -47,38 +47,15 @@ void		*action(void *arg)
     {
       if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
 	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	/*printf("fonction EAT\n");*/
 	func_eat(tab);
       else if ((pthread_mutex_trylock(&tab->chopstik) != 0) ||
 	       (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	/*printf("fonction THINK\n");*/
 	func_think(tab);
       else
-	/*printf("fonction REST\n");*/
 	func_rest(tab);
     }
   else if (tab->state == EAT)
     {
-      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-	  (pthread_mutex_trylock(&tab->next->chopstik) != 0) &&
-	  tab->rice != 0)
-	/*printf("fonction EAT_n");*/
-	func_eat(tab);
-      else
-	/*printf("fonction REST\n");*/
-	func_rest(tab);
-    }
-  else/*THINK*/
-    {
-      if ((pthread_mutex_trylock(&tab->chopstik) != 0) &&
-	  (pthread_mutex_trylock(&tab->next->chopstik) != 0))
-	/*printf("fonction EAT\n");*/
-	func_eat(tab);
-      else
-	/*printf("fonction THINK");*/
-	func_think(tab);
-    }
-  return 0;
 }
 
 int		main()
@@ -91,8 +68,11 @@ int		main()
   if (!(tab = malloc(sizeof(t_philo) * PHIL)))
     return (-1);
   while (i < PHIL)
-    if (!(tab[i++] = malloc(sizeof(t_philo))))
-      return (-1);
+    {
+      if (!(tab[i] = malloc(sizeof(t_philo))))
+	return (-1);
+      ++i;
+    }
   init_philo(tab);
   i = 0;
   while (i < PHIL)
@@ -101,7 +81,10 @@ int		main()
       ++i;
     }
   while (i < PHIL)
-    free(tab[i++]);
+    {
+      free(tab[i]);
+      ++i;
+    }
   free(tab);
   return (0);
 }

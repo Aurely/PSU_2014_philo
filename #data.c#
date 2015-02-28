@@ -1,0 +1,19 @@
+/*
+** data.c for  in /home/trotie_m/rendu/PSU_2014_philo
+** 
+** Made by Trotier Marie
+** Login   <trotie_m@epitech.net>
+** 
+** Started on  Tue Feb 24 11:13:06 2015 Trotier Marie
+** Last update Sat Feb 28 11:42:17 2015 Trotier Marie
+*/
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <pthread.h>
+#include "philosophes.h"
+  philo->state = REST;
+  philo->nb_think = 0;
+  printf("philosophe %d -> rest     . O .\n", philo->id);
+}
