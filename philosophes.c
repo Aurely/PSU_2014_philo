@@ -5,7 +5,7 @@
 ** Login   <trotie_m@epitech.net>
 ** 
 ** Started on  Sun Feb 22 15:30:22 2015 Trotier Marie
-** Last update Sat Feb 28 15:41:38 2015 Aurélie LAO
+** Last update Sat Feb 28 15:44:33 2015 Aurélie LAO
 */
 
 #include <stdio.h>
@@ -26,7 +26,7 @@ void	init_philo(t_philo **tab)
   while (i < PHIL)
     {
       tab[i]->id = i;
-      tab[i]->state = 1;
+      tab[i]->state = REST;
       tab[i]->nb_think = 0;
       tab[i]->rice = INIT_RICE;
       pthread_mutex_init(&(tab[i]->chopstik), NULL);
@@ -86,7 +86,7 @@ int		main()
     if (!(tab[i++] = malloc(sizeof(t_philo))))
       return (-1);
   init_philo(tab);
-  i = 0; 
+  i = 0;
   while (i < PHIL)
     {
       pthread_create(&(threads[i]), NULL, &action, (void *)tab[i]);
